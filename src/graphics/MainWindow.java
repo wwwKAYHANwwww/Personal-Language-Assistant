@@ -5,14 +5,24 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame {
@@ -46,7 +56,7 @@ public class MainWindow extends JFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight()-104;
-
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setBounds(0, 0, (int)width, (int)height);
@@ -73,13 +83,56 @@ public class MainWindow extends JFrame {
 
 		DefaultListModel<String> Status_ListModel=new DefaultListModel<>();
 		JList<String> Status_list = new JList<String>(Status_ListModel);
+		Status_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+
+		JPopupMenu popupMenu = new JPopupMenu();
+		JMenuItem jmi1 = new  JMenuItem("Learn");
+		jmi1.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String word = Status_list.getSelectedValue();
+				int index = Status_list.getSelectedIndex();
+				word=word.substring(0, word.indexOf(" "));
+				System.out.println(word);
+				Status_ListModel.remove(index);
+
+				FileWriter fw;
+				try {
+					fw = new FileWriter("dictionary.dat", true);
+					fw.append(word+'\n');
+					fw.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+
+			}
+		});
+		popupMenu.add(jmi1);
+
+		Status_list.addMouseListener(new MouseAdapter() {
+		     public void mouseClicked(MouseEvent me) {
+		       if (SwingUtilities.isRightMouseButton(me)
+		           && !Status_list.isSelectionEmpty()
+		           && Status_list.locationToIndex(me.getPoint())
+		              == Status_list.getSelectedIndex()) {
+		               popupMenu.show(Status_list, me.getX(), me.getY());
+		               }
+		           }
+		        }
+		     );
 		
 		JScrollPane scrollPane2 = new JScrollPane(Status_list);
 		scrollPane2.setPreferredSize(new Dimension(310, (int)height-40));
 		
 		panel.add(scrollPane2);
-		//Status_ListModel.addElement("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
 		
+		ImageIcon okIcon = new ImageIcon(this.getClass().getResource("/ok.png"));
+		btnProcess.setIcon(okIcon);
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -87,10 +140,14 @@ public class MainWindow extends JFrame {
 				processor.TextProcessor p = new processor.TextProcessor(editorPane.getText());
 				p.process();
 				
+				String lastword="!!!!";
 		        for (String key : p.words.keySet())
 		        {
 		        	Status_ListModel.addElement(key+" ("+ p.freq.get(key).toString() + ")" );
+		        	lastword=key;
 		        }
+		        if (p.words.size()==1 && lastword.length()==0)
+		        	Status_ListModel.clear();
 			}
 		});
 	}

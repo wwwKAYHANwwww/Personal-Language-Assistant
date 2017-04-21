@@ -1,5 +1,10 @@
 package processor;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,7 +67,22 @@ public class TextProcessor
         String[] sentarr = text.split(" ");
         freq = new HashMap<String, Integer>();
         for (String word : sentarr)
-            arr.add(word);
+        {
+        	boolean f = true;
+        	try(BufferedReader br = new BufferedReader(new FileReader(new File ("dictionary.dat")))) {
+        	    for(String line; (line = br.readLine()) != null; )
+        	    	if (line.equals(word))
+        	    	{
+        	    		f=false;
+        	    		break;
+        	    	}
+        	}
+        	catch (FileNotFoundException e) {}
+        	catch (IOException e) {}
+        	
+        	if (f)
+        		arr.add(word);
+        }
         for (String word : arr)
         {
             int count = Collections.frequency(arr, word);
