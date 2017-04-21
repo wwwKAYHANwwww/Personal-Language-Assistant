@@ -31,6 +31,9 @@ public class TextProcessor
 		text=text.replace("'d ", " ");
 		text=text.replace("’re ", " ");
 		text=text.replace("'re ", " ");
+		text=text.replace("’ll ", " ");
+		text=text.replace("'ll ", " ");
+
 		text=text.replace(",", " ");
 		text=text.replace(".", " ");
 		text=text.replace(":", " ");
