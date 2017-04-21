@@ -27,6 +27,10 @@ public class TextProcessor
 	{
 		text=text.replace("’s ", " ");
 		text=text.replace("'s ", " ");
+		text=text.replace("’d ", " ");
+		text=text.replace("'d ", " ");
+		text=text.replace("’re ", " ");
+		text=text.replace("'re ", " ");
 		text=text.replace(",", " ");
 		text=text.replace(".", " ");
 		text=text.replace(":", " ");
@@ -69,20 +73,21 @@ public class TextProcessor
         freq = new HashMap<String, Integer>();
         for (String word : sentarr)
         {
-        	boolean f = true;
-        	try(BufferedReader br = new BufferedReader(new FileReader(new File ("dictionary.dat")))) {
-        	    for(String line; (line = br.readLine()) != null; )
-        	    	if (line.equals(word))
-        	    	{
-        	    		f=false;
-        	    		break;
-        	    	}
-        	}
-        	catch (FileNotFoundException e) {}
-        	catch (IOException e) {}
+        	if (word.length()>1)
+        	{
+        		boolean f = true;
+        		try(BufferedReader br = new BufferedReader(new FileReader(new File ("dictionary.dat")))) {
+        			for(String line; (line = br.readLine()) != null; )
+        				if (line.equals(word))
+        				{
+        					f=false;
+        					break;
+        				}
+        		}catch (FileNotFoundException e){} catch (IOException e){}
         	
-        	if (f)
-        		arr.add(word);
+        		if (f)
+        			arr.add(word);
+        	}
         }
         for (String word : arr)
         {
