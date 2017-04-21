@@ -65,6 +65,9 @@ public class TextProcessor
 		text=text.replace("8", " ");
 		text=text.replace("9", " ");
 		text=text.replace("0", " ");
+		text=text.replace("'", " ");
+		text=text.replace("’", " ");
+
 		text=text.replace('\n', ' ');
 		text=text.trim().replaceAll("\\s{2,}", " ");
 		text=text.toLowerCase();
