@@ -25,7 +25,8 @@ public class TextProcessor
 	
 	public void process()
 	{
-		text=text.replace("'s", " ");
+		text=text.replace("’s ", " ");
+		text=text.replace("'s ", " ");
 		text=text.replace(",", " ");
 		text=text.replace(".", " ");
 		text=text.replace(":", " ");
