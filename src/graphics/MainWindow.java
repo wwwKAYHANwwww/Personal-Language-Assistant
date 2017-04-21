@@ -1,24 +1,26 @@
 package graphics;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7929001871259770152L;
 	private JPanel contentPane;
 
 	/**
@@ -71,90 +73,25 @@ public class MainWindow extends JFrame {
 
 		DefaultListModel<String> Status_ListModel=new DefaultListModel<>();
 		JList<String> Status_list = new JList<String>(Status_ListModel);
-		//Status_list.setFixedCellWidth(295);
 		
 		JScrollPane scrollPane2 = new JScrollPane(Status_list);
-		//scrollPane2.setBounds((int)width-340, 6, 300, (int)height-35);
 		scrollPane2.setPreferredSize(new Dimension(310, (int)height-40));
 		
 		panel.add(scrollPane2);
 		//Status_ListModel.addElement("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-		Status_ListModel.addElement("zzz");
-
-
 		
+		btnProcess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				Status_ListModel.clear();
+				processor.TextProcessor p = new processor.TextProcessor(editorPane.getText());
+				p.process();
+				
+		        for (String key : p.words.keySet())
+		        {
+		        	Status_ListModel.addElement(key+" ("+ p.freq.get(key).toString() + ")" );
+		        }
+			}
+		});
 	}
 }
