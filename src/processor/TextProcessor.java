@@ -41,6 +41,7 @@ public class TextProcessor
 		text=text.replace("#", " ");
 		text=text.replace("$", " ");
 		text=text.replace("%", " ");
+		text=text.replace("?", " ");
 		text=text.replace("^", " ");
 		text=text.replace("&", " ");
 		text=text.replace("*", " ");
